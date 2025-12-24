@@ -191,6 +191,56 @@ function renderConstraints(type, container) {
   }
 }
 
+function readArrayElementSchema(container) {
+  const type = container.querySelector(".element-type")?.value;
+  if (!type) return null;
+
+  const schema = { type };
+
+  // Number constraints
+  if (type === "integer" || type === "float") {
+    const min = container.querySelector(".min")?.value;
+    const max = container.querySelector(".max")?.value;
+    if (min !== "") schema.min = Number(min);
+    if (max !== "") schema.max = Number(max);
+  }
+
+  // String regex
+  if (type === "string") {
+    const regex = container.querySelector(".regex")?.value;
+    if (regex?.trim()) schema.regex = regex.trim();
+  }
+
+  // Enum
+  const enumInput = container.querySelector(".enum")?.value;
+  if (enumInput?.trim()) {
+    schema.enum = enumInput
+      .split(",")
+      .map(v => v.trim())
+      .filter(Boolean)
+      .map(v => {
+        if (type === "integer" || type === "float") return Number(v);
+        if (type === "boolean") return v === "true";
+        return v;
+      });
+  }
+
+  // Object
+  if (type === "object") {
+    const nested = container.querySelector(".nested-fields");
+    schema.fields = buildSchemaFromForm(nested);
+  }
+
+  // 🔁 Array inside array (RECURSIVE)
+  if (type === "array") {
+    const nestedConstraints = container.querySelector(".element-constraints");
+    schema.element_type = readArrayElementSchema(nestedConstraints);
+  }
+
+  return schema;
+}
+
+
 // --- 4. Build JSON Schema ---
 function buildSchemaFromForm(container = document) {
   const schema = {};

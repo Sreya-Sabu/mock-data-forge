@@ -6,7 +6,7 @@ function generateObject(schema){
         if(field.type === "object"){
             output[key] = generateObject(field.fields);
         } else if(field.type === "array"){
-            output[key] = Array.from({length: field.count ?? 3}, () => generateValue(field.element_type));
+            output[key] = Array.from({length: field.count ?? 5}, () => generateValue(field.element_type));
         } else {
             output[key] = generateValue(field);
         }
