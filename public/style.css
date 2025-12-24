@@ -1,0 +1,447 @@
+/* 1. Global Variables & Reset */
+:root {
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --bg-input: #020617;
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --font-main: 'Inter', sans-serif;
+    --font-code: 'Fira Code', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Prevents body scroll, lets cards scroll internally */
+}
+
+/* 2. Header */
+header {
+    padding: 20px 40px;
+    background-color: var(--bg-dark);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0; /* Prevents header from shrinking */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 6px;
+    color: white;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* 3. Main Layout Grid */
+.main-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Split screen 50% / 50% */
+    gap: 2rem;
+    padding: 2rem 40px;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden; /* Important for inner scrolling */
+}
+
+/* 4. Card Component */
+.card {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    height: 100%; /* Fills the grid cell */
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+}
+
+h2 {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* 5. NEW: Mode Switcher (Tabs) */
+.mode-toggle-container {
+    display: flex;
+    background-color: var(--bg-input);
+    padding: 4px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.toggle-btn {
+    flex: 1;
+    background: transparent;
+    color: var(--text-muted);
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.toggle-btn:hover {
+    color: white;
+}
+
+.toggle-btn.active {
+    background-color:  #131c33;
+    color: var(--text-main);
+    font-weight: 600;
+    
+}
+
+/* 6. Content Areas & Editors */
+.content-area {
+    flex: 1; /* Takes up all available space between tabs and buttons */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0; /* Critical for scrollbars to work inside flex items */
+    margin-bottom: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.editor-wrapper {
+    flex: 1;
+    background-color: var(--bg-input);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+}
+
+textarea, pre {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    color: #cbd5e1;
+    font-family: var(--font-code);
+    font-size: 14px;
+    padding: 15px;
+    resize: none;
+    outline: none;
+    line-height: 1.5;
+}
+
+pre {
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+/* 7. NEW: Form Builder Styles */
+.form-header{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    
+    padding-bottom: 10px;
+    padding-right: 9px;
+}
+#addFieldBtn{
+    align-self: flex-end;
+}
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.fields-scroll-area {
+    max-height: 400px;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 5px; 
+    scroll-behavior: smooth;
+}
+
+.field-row {
+    display: flex;
+    
+    align-items: center;
+    gap: 10px;
+    background-color: var(--bg-input);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    animation: fadeIn 0.2s ease-in-out;
+    width: 100%;
+    
+}
+
+.object-fields {
+  width: 100%;
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.nested-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-nested-field{
+    margin-bottom: 10px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.field-name {
+    flex: 2;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    color: white;
+    padding: 8px;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    outline: none;
+}
+.field-name:focus {
+    border-bottom-color: var(--primary);
+}
+
+.field-type {
+    flex: 1;
+    background-color: var(--bg-card);
+    color: white;
+    border: 1px solid var(--border);
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+.regex{
+    flex: 1;
+    background-color: var(--bg-card);
+    color: white;
+    border: 1px solid var(--border);
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.enum{
+     flex: 1;
+    background-color: var(--bg-card);
+    color: white;
+    border: 1px solid var(--border);
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    
+}
+
+.element-type{
+    flex: 1;
+    background-color: var(--bg-card);
+    color: white;
+    border: 1px solid var(--border);
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.remove-btn {
+    color: #f7f4f4;
+    background: transparent;
+    font-size: 1.2rem;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.remove-btn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-radius: 50%;
+}
+
+/* 8. Controls Footer (Fixed at bottom) */
+.controls {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100px;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+input[type="number"] {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    font-family: var(--font-main);
+    outline: none;
+}
+input[type="number"]:focus {
+    border-color: var(--primary);
+}
+
+#jsonContainer{
+    padding-top: 7px;
+}
+
+#formContainer{
+    display: flex;
+    flex-direction: column;
+}
+#formContainer button{
+    margin-top: auto;
+    align-self: flex-end;
+}
+
+/* Buttons */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+#generateBtn {
+    flex: 1;
+    background: linear-gradient(90deg, var(--primary), #4f46e5);
+    color: white;
+    font-size: 1rem;
+    margin-top: auto;
+    height: 42px; /* Fixed height for alignment */
+}
+
+#generateBtn:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+#generateBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.secondary-btn {
+    background-color: var(--border);
+    color: var(--text-main);
+    padding: 6px 12px;
+    font-size: 0.8rem;
+}
+.secondary-btn:hover {
+    background-color: #475569;
+}
+
+/* 9. Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-input);
+}
+::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+/* 10. Mobile Responsiveness */
+@media (max-width: 768px) {
+    body {
+        height: auto;
+        overflow-y: auto;
+    }
+    
+    .main-container {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        overflow: visible;
+    }
+
+    .card {
+        height: auto;
+        min-height: 500px; /* Ensure space on mobile */
+    }
+
+    .content-area {
+        min-height: 300px;
+    }
+}

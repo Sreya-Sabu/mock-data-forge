@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Data Forge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <span class="icon">M</span>
+            <h1>MOCK DATA GENERATOR</h1>
+        </div>
+    </header>
+    
+    <div class="main-container">
+        
+        <div class="card input-card">
+            
+            <div class="mode-toggle">
+                <button id="jsonModeBtn" class="toggle-btn active">JSON Mode</button>
+                <button id="formModeBtn" class="toggle-btn">Form Mode</button>
+            </div>
+
+            <div id="jsonContainer" class="mode-content">
+                <div class="editor-wrapper">
+                    <textarea id="schemaInput" placeholder='{ "number": { "type": "integer" } }' spellcheck="false"></textarea>
+                </div>
+            </div>
+
+            <div id="formContainer" class="mode-content hidden">
+                <div class="form-header">
+                   
+                    <button id="addFieldBtn" class="secondary-btn small">+ Add Field</button>
+                </div>
+                
+                <div id="fieldsContainer" class="fields-scroll-area">
+                
+                    </div>
+            </div>
+
+            <div class="controls">
+                <div class="input-group">
+                    <label>Count</label>
+                    <input id="countInput" type="number" value="1" min="1" max="100"/>
+                </div>
+                <button id="generateBtn">Generate Data</button>
+            </div>
+        </div>
+
+        <div class="card output-card">
+            <div class="card-header">
+                <h2>Generated Output</h2>
+                <button id="copyBtn" class="secondary-btn">Copy JSON</button>
+            </div>
+            <div class="editor-wrapper">
+                <pre id="outputBox">// Output will appear here...</pre>
+            </div>
+        </div>
+      
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "username": {
+    "type": "string",
+    "regex": "[a-z]{5,8}"
+  },
+  "age": {
+    "type": "integer",
+    "min": 18,
+    "max": 30
+  }
+}
