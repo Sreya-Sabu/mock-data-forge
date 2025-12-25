@@ -52,11 +52,12 @@ btn.addEventListener("click", async () => {
         throw new Error("Please add at least one field to the form.");
     }
 
-    const response = await fetch("http://localhost:3000/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ schema, count })
-    });
+    fetch("/api/generate", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ schema, count })
+});
+
 
     const data = await response.json();
 
